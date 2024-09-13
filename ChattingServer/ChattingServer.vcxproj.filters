@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\00. Main">
+      <UniqueIdentifier>{7f595cd2-119d-4e81-b13a-068cd096cb42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager">
+      <UniqueIdentifier>{c6bca8fd-05fc-4d19-a2b1-105e9f152aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\00. WinSockMgr">
+      <UniqueIdentifier>{33e60e11-3378-4312-a726-f0cc498a3b32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\01. TimeMgr">
+      <UniqueIdentifier>{dda0561a-bc33-43ce-989b-6c90f73d7681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\02. RingBuffer">
+      <UniqueIdentifier>{987db689-3038-43a2-b20f-a5b036d255f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03. Packet">
+      <UniqueIdentifier>{0d92e6d5-2e08-4851-9aff-08081c92914b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99. Etc">
+      <UniqueIdentifier>{5a6551d0-e05d-4552-a704-8f137c1ad9eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\02. ObjMgr">
+      <UniqueIdentifier>{10ce1e2b-13a1-495b-9f98-fa7a1afff0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\03. SessionMgr">
+      <UniqueIdentifier>{028425ba-4bf9-4ff6-af37-0913b49a7e31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99. Etc\00. pch">
+      <UniqueIdentifier>{8c24b233-89ee-42e9-b4de-f61153a22185}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99. Etc\01. throw Exception">
+      <UniqueIdentifier>{846c0be7-2da7-48c0-a117-edcc34d54304}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99. Etc\01. throw Exception\00. StackWalker">
+      <UniqueIdentifier>{cc3360fa-c760-4938-b6a6-456b30dca063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\02. ObjMgr\00. Object">
+      <UniqueIdentifier>{326bf29f-d1a2-41bf-9c95-602e17206b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\03. SessionMgr\00. Session">
+      <UniqueIdentifier>{90e6ba1c-3654-4454-8ecc-8dc51825d246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03. Packet\00. PacketProc">
+      <UniqueIdentifier>{047be534-cbf9-4657-bde5-a3d7a12f1c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\NetIOMgr">
+      <UniqueIdentifier>{bc0df780-6c7b-4abd-915f-8d5cf5265079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03. Packet\01. MakePacket">
+      <UniqueIdentifier>{df8b27dc-e1b1-4a21-abfe-bbf9d54d4425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\03. Packet\02. Header">
+      <UniqueIdentifier>{94e917b0-d19b-4779-b299-6333f49908bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\04. Content">
+      <UniqueIdentifier>{3c3abe0e-4274-468b-ac6c-d496aaf587f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\02. ObjMgr\00. Object\00. User">
+      <UniqueIdentifier>{ae79cb49-eb53-4afd-94df-eb716a8b319a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>소스 파일\00. Main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일\99. Etc\00. pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet.cpp">
+      <Filter>소스 파일\03. Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomException.cpp">
+      <Filter>소스 파일\99. Etc\01. throw Exception</Filter>
+    </ClCompile>
+    <ClCompile Include="StackWalker.cpp">
+      <Filter>소스 파일\99. Etc\01. throw Exception\00. StackWalker</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectManager.cpp">
+      <Filter>소스 파일\01. Manager\02. ObjMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\01. Manager\02. ObjMgr\00. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionManager.cpp">
+      <Filter>소스 파일\01. Manager\03. SessionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="NetIOManager.cpp">
+      <Filter>소스 파일\01. Manager\NetIOMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSockManager.cpp">
+      <Filter>소스 파일\01. Manager\00. WinSockMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>소스 파일\01. Manager\03. SessionMgr\00. Session</Filter>
+    </ClCompile>
+    <ClCompile Include="PacketProc.cpp">
+      <Filter>소스 파일\03. Packet\00. PacketProc</Filter>
+    </ClCompile>
+    <ClCompile Include="MakePacket.cpp">
+      <Filter>소스 파일\03. Packet\01. MakePacket</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>소스 파일\01. Manager\02. ObjMgr\00. Object\00. User</Filter>
+    </ClCompile>
+    <ClCompile Include="Content.cpp">
+      <Filter>소스 파일\04. Content</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WinSockManager.h">
+      <Filter>소스 파일\01. Manager\00. WinSockMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerManager.h">
+      <Filter>소스 파일\01. Manager\01. TimeMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>소스 파일\99. Etc\00. pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>소스 파일\01. Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RingBuffer.h">
+      <Filter>소스 파일\02. RingBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet.h">
+      <Filter>소스 파일\03. Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomException.h">
+      <Filter>소스 파일\99. Etc\01. throw Exception</Filter>
+    </ClInclude>
+    <ClInclude Include="StackWalker.h">
+      <Filter>소스 파일\99. Etc\01. throw Exception\00. StackWalker</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectManager.h">
+      <Filter>소스 파일\01. Manager\02. ObjMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\01. Manager\02. ObjMgr\00. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h">
+      <Filter>소스 파일\01. Manager\03. SessionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="NetIOManager.h">
+      <Filter>소스 파일\01. Manager\NetIOMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>소스 파일\01. Manager\03. SessionMgr\00. Session</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketProc.h">
+      <Filter>소스 파일\03. Packet\00. PacketProc</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketHeader.h">
+      <Filter>소스 파일\03. Packet\02. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MakePacket.h">
+      <Filter>소스 파일\03. Packet\01. MakePacket</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>소스 파일\01. Manager\02. ObjMgr\00. Object\00. User</Filter>
+    </ClInclude>
+    <ClInclude Include="Content.h">
+      <Filter>소스 파일\04. Content</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
