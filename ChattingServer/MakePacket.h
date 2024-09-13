@@ -7,8 +7,8 @@ class CSession;
 void RES_LOGIN_FOR_All(CSession* pSession, UINT8 result, UINT32 userNO);
 void RES_LOGIN_FOR_SINGLE(CSession* pSession, UINT8 result, UINT32 userNO);
 
-void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom>& roomList);
-void RES_ROOM_LIST_FOR_SINGLE(CSession* pSession, const std::list<CRoom>& roomList);
+void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom*>& roomList);
+void RES_ROOM_LIST_FOR_SINGLE(CSession* pSession, const std::list<CRoom*>& roomList);
 
 void RES_ROOM_CREATE_FOR_All(CSession* pSession, UINT8 result, const CRoom* room);
 void RES_ROOM_CREATE_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* room);

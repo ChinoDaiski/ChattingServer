@@ -24,9 +24,10 @@ void UnicastPacket(CSession* includeCSession, PACKET_HEADER* pHeader, CPacket* p
 void NotifyClientDisconnected(CSession* disconnectedCSession);
 CSession* createSession(SOCKET ClientSocket, SOCKADDR_IN ClientAddr);
 
-
-
 extern std::list<CSession*> g_clientList;   // 서버에 접속한 세션들에 대한 정보
+
+
+typedef void(*DisconnectCallback)(CSession* pSession);
 
 class CSessionManager : public SingletonBase<CSessionManager> {
 private:
@@ -44,12 +45,6 @@ public:
     void Update(void);
 
 public:
-    static std::map<UINT16, CSession*>& GetUserCSessionMap(void) { return m_UserCSessionMap; }
-
-private:
-    static void DeleteCSession(UINT16 uid);
-
-public:
     friend void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT8 dataSize);
     friend void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT8 dataSize);
     friend void BroadcastPacket(CSession* excludeCSession, PACKET_HEADER* pHeader, CPacket* pPacket);
@@ -58,7 +53,9 @@ public:
     friend void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT8 dataSize);
     friend void UnicastPacket(CSession* includeCSession, PACKET_HEADER* pHeader, CPacket* pPacket);
 
+public:
+    static void RegisterDisconnectCallback(DisconnectCallback callback) { m_callbackDisconnect = callback; }
+
 private:
-    static UINT16 m_gID;
-    static std::map<UINT16, CSession*> m_UserCSessionMap;
+    static DisconnectCallback m_callbackDisconnect;
 };

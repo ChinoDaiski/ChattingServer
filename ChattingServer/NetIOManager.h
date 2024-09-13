@@ -5,7 +5,7 @@
 class CSession;
 class CPacket;
 
-typedef bool(*PacketCallback)(CSession* pSession, PACKET_TYPE packetType, CPacket* pPacket);
+typedef bool(*PacketProcCallback)(CSession* pSession, PACKET_TYPE packetType, CPacket* pPacket);
 
 class CNetIOManager : public SingletonBase<CNetIOManager> {
 private:
@@ -26,13 +26,8 @@ public:
     void static netProc_Recv(CSession* pSession);
 
 public:
-    //std::queue<CSession*>& GetAcceptSessionQueue(void) { return m_AcceptSessionQueue; }
-
-public:
-    static void RegisterCallbackFunction(PacketCallback callback);
+    static void RegisterPacketProcCallback(PacketProcCallback callback) { m_callbackPacketProc = callback; }
 
 private:
-    //std::queue<CSession*> m_AcceptSessionQueue;
-    static PacketCallback m_callback;
-    static UINT16 g_ID;
+    static PacketProcCallback m_callbackPacketProc;
 };

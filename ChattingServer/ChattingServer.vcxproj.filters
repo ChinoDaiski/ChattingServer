@@ -54,9 +54,6 @@
     <Filter Include="소스 파일\03. Packet\00. PacketProc">
       <UniqueIdentifier>{047be534-cbf9-4657-bde5-a3d7a12f1c92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\01. Manager\NetIOMgr">
-      <UniqueIdentifier>{bc0df780-6c7b-4abd-915f-8d5cf5265079}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\03. Packet\01. MakePacket">
       <UniqueIdentifier>{df8b27dc-e1b1-4a21-abfe-bbf9d54d4425}</UniqueIdentifier>
     </Filter>
@@ -68,6 +65,12 @@
     </Filter>
     <Filter Include="소스 파일\01. Manager\02. ObjMgr\00. Object\00. User">
       <UniqueIdentifier>{ae79cb49-eb53-4afd-94df-eb716a8b319a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. Manager\04. NetIOMgr">
+      <UniqueIdentifier>{bc0df780-6c7b-4abd-915f-8d5cf5265079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\99. Etc\02. Protocol">
+      <UniqueIdentifier>{3d91aff2-09b4-4b0d-b55b-a12b924f0094}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,7 +99,7 @@
       <Filter>소스 파일\01. Manager\03. SessionMgr</Filter>
     </ClCompile>
     <ClCompile Include="NetIOManager.cpp">
-      <Filter>소스 파일\01. Manager\NetIOMgr</Filter>
+      <Filter>소스 파일\01. Manager\04. NetIOMgr</Filter>
     </ClCompile>
     <ClCompile Include="WinSockManager.cpp">
       <Filter>소스 파일\01. Manager\00. WinSockMgr</Filter>
@@ -151,11 +154,8 @@
     <ClInclude Include="SessionManager.h">
       <Filter>소스 파일\01. Manager\03. SessionMgr</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="NetIOManager.h">
-      <Filter>소스 파일\01. Manager\NetIOMgr</Filter>
+      <Filter>소스 파일\01. Manager\04. NetIOMgr</Filter>
     </ClInclude>
     <ClInclude Include="Session.h">
       <Filter>소스 파일\01. Manager\03. SessionMgr\00. Session</Filter>
@@ -174,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="Content.h">
       <Filter>소스 파일\04. Content</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol.h">
+      <Filter>소스 파일\99. Etc\02. Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

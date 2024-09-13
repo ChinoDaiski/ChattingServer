@@ -9,8 +9,7 @@
 #include "ObjectManager.h"
 #include "Packet.h"
 
-UINT16 CNetIOManager::g_ID = 0;  // 세션들에 id를 부여하기 위한 기준. 이 값을 1씩 증가시키면서 id를 부여한다.
-PacketCallback CNetIOManager::m_callback;
+PacketProcCallback CNetIOManager::m_callbackPacketProc;
 
 CNetIOManager::CNetIOManager() noexcept
 {
@@ -196,10 +195,6 @@ void CNetIOManager::netProc_Accept(void)
     // 세션을 만들어서 m_AcceptSessionList에 넣음
     CSessionManager& sessionManger = CSessionManager::getInstance();
     CSession* pSession = createSession(ClientSocket, ClientAddr);
-
-    // ID 부여
-    pSession->uid = g_ID;
-    g_ID++;
 
     g_clientList.push_back(pSession);
 }
@@ -404,15 +399,10 @@ void CNetIOManager::netProc_Recv(CSession* pSession)
         // 8. 헤더의 타입에 따른 분기를 위해 패킷 프로시저 호출
         CPacket Packet;
         Packet.PutData(tempPacketBuffer, recvQDeqRetVal);
-        if (!m_callback(pSession, static_cast<PACKET_TYPE>(header.wMsgType), &Packet))
+        if (!m_callbackPacketProc(pSession, static_cast<PACKET_TYPE>(header.wMsgType), &Packet))
         {
             NotifyClientDisconnected(pSession);
             break;
         }
     }
-}
-
-void CNetIOManager::RegisterCallbackFunction(PacketCallback callback)
-{
-    m_callback = callback;
 }

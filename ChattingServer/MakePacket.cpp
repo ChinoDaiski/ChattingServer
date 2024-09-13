@@ -58,7 +58,7 @@ void RES_LOGIN_FOR_SINGLE(CSession* pSession, UINT8 result, UINT32 userNO)
     UnicastPacket(pSession, &header, &Packet);
 }
 
-void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom>& roomList)
+void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom*>& roomList)
 {
     PACKET_HEADER header;
     CPacket Packet;
@@ -68,7 +68,7 @@ void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom>& roomList)
     Packet << roomList.size();
     for (auto& iter : roomList)
     {
-        CRoom room = iter;
+        CRoom room = *iter;
 
         Packet << room.m_roomID;
 
@@ -102,24 +102,26 @@ void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom>& roomList)
     BroadcastPacket(pSession, &header, &Packet);
 }
 
-void RES_ROOM_LIST_FOR_SINGLE(CSession* pSession, const std::list<CRoom>& roomList)
+void RES_ROOM_LIST_FOR_SINGLE(CSession* pSession, const std::list<CRoom*>& roomList)
 {
     PACKET_HEADER header;
     CPacket Packet;
 
     //================================================================================
 
-    Packet << roomList.size();
+    Packet << (UINT16)roomList.size();
+
     for (auto& iter : roomList)
     {
-        CRoom room = iter;
+        CRoom room = *iter;
 
         Packet << room.m_roomID;
 
-        Packet << room.m_roomName.size();
-        Packet << room.m_roomName.c_str();
+        UINT16 size = (UINT16)room.m_roomName.size() * sizeof(WCHAR);
+        Packet << size;
+        Packet.PutData((char*)room.m_roomName.c_str(), size);
 
-        Packet << room.m_participants.size();
+        Packet << (UINT8)room.m_participants.size();
 
         CUser* pUser;
         for (auto& iter : room.m_participants)

@@ -8,7 +8,7 @@
 class CPacket
 {
 public:
-	enum class en_PACKET : UINT8
+	enum class en_PACKET : UINT32
 	{
 		eBUFFER_DEFAULT = 1400		// 패킷의 기본 버퍼 사이즈.
 	};
@@ -18,7 +18,7 @@ public:
 	//
 	// Return:
 	//////////////////////////////////////////////////////////////////////////
-	explicit CPacket(int iBufferSize = static_cast<UINT8>(en_PACKET::eBUFFER_DEFAULT));
+	explicit CPacket(int iBufferSize = static_cast<UINT32>(en_PACKET::eBUFFER_DEFAULT));
 	virtual ~CPacket();
 
 	//////////////////////////////////////////////////////////////////////////

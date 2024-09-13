@@ -27,4 +27,7 @@ public:
     UINT16 uid; // ID
 
     CObject* pObj;
+
+private:
+    static UINT16 g_uID;
 };

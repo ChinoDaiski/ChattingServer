@@ -50,6 +50,8 @@ bool RemoveRoomName(const std::wstring& roomName)
     return true;
 }
 
+
+
 UINT32 CRoom::g_roomID = 0;
 
 CRoom::CRoom(const std::wstring& roomName)

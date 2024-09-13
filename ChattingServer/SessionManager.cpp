@@ -3,11 +3,9 @@
 #include "SessionManager.h"
 #include "Packet.h"
 
-std::map<UINT16, CSession*> CSessionManager::m_UserCSessionMap;
-
 std::list<CSession*> g_clientList;   // 서버에 접속한 세션들에 대한 정보
 
-UINT16 CSessionManager::m_gID = 0;  // 전역 유저 id 초기 값 설정
+DisconnectCallback CSessionManager::m_callbackDisconnect;
 
 CSessionManager::CSessionManager() noexcept
 {
@@ -19,15 +17,22 @@ CSessionManager::~CSessionManager() noexcept
 
 void CSessionManager::Update(void)
 {
-    auto it = m_UserCSessionMap.begin();
-    while (it != m_UserCSessionMap.end())
+    // 비활성화된 클라이언트를 리스트에서 제거
+    // 여기서 제거하는 이유는 이전 프레임에 로직 상에서 제거될 세션들의 sendQ가 비워지고 나서 제거되길 원해서 이렇게 작성.
+    auto it = g_clientList.begin();
+    while (it != g_clientList.end())
     {
-        CSession* pCSession = it->second;
-
         // 비활성화 되었다면
-        if (!pCSession->isAlive)
+        if (!(*it)->isAlive)
         {
-            it = m_UserCSessionMap.erase(it);
+            // 컨텐츠에서 넣어준 함수 호출
+            m_callbackDisconnect((*it));
+
+            // 제거
+            closesocket((*it)->sock);
+            delete (*it);   // 세션 삭제
+
+            it = g_clientList.erase(it);
         }
         // 활성 중이라면
         else

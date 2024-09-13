@@ -14,3 +14,4 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo);
 bool REQ_CHAT(CSession* pSession, UINT16 strSize, WCHAR* szChat);
 bool REQ_ROOM_LEAVE(CSession* pSession);
 
+void DisconnectSessionProc(CSession* pSession);
