@@ -179,7 +179,7 @@ void RES_ROOM_CREATE_FOR_All(CSession* pSession, UINT8 result, const CRoom* room
     }
     header.byCheckSum %= 256;
 
-    BroadcastPacket(nullptr, &header, &Packet);
+    BroadcastPacket(pSession, &header, &Packet);
 }
 
 void RES_ROOM_CREATE_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* room)

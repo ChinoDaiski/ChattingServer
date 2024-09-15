@@ -123,6 +123,7 @@ bool REQ_ROOM_LIST(CSession* pSession)
     {
         roomList.push_back(iter.second);
     }
+
     RES_ROOM_LIST_FOR_SINGLE(pSession, roomList);
 
     return true;
@@ -152,7 +153,7 @@ bool REQ_ROOM_CREATE(CSession* pSession, UINT16 strSize, WCHAR* roomName)
     }
 
     // 새로운 방이 생성되었음을 브로드캐스트로 알림
-    RES_ROOM_CREATE_FOR_All(pSession, result, pRoom);
+    RES_ROOM_CREATE_FOR_All(nullptr, result, pRoom);
 
     return true;
 }
