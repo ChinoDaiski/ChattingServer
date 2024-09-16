@@ -23,41 +23,11 @@ void CNetIOManager::netIOProcess(void)
 {
     FD_SET ReadSet;
     FD_SET WriteSet;
+    int iResult;
 
-    FD_ZERO(&ReadSet);
-    FD_ZERO(&WriteSet);
-
-    //==============================================================================================
-    // listen 소켓 처리
-    //==============================================================================================
-    CWinSockManager& winSockManager = CWinSockManager::getInstance();
-    SOCKET listenSocket = winSockManager.GetListenSocket();
-    FD_SET(listenSocket, &ReadSet);
-
-    // listen 소켓 select
     TIMEVAL timeVal;
     timeVal.tv_sec = 0;
     timeVal.tv_usec = 0;
-
-    // listen 소켓 전용 select 호출. 
-    int iResult = select(0, &ReadSet, NULL, NULL, &timeVal);
-
-    // 백로그 큐에 소켓이 있다면, accept 진행
-    if (FD_ISSET(listenSocket, &ReadSet))
-    {
-        // accept 이벤트 처리. 접속 및 CSession 생성
-        netProc_Accept();
-    }
-
-
-
-
-    if (g_clientList.empty())
-        return;
-
-
-
-    FD_ZERO(&ReadSet);
 
     // select는 한번에 최대 64개까지 처리 가능
     // 접속중인 모든 클라이언트에 대해 SOCKET 체크
@@ -142,12 +112,30 @@ void CNetIOManager::netIOProcess(void)
         ++iter;
     }
 
+
+    //==============================================================================================
+    // listen 소켓 처리
+    //==============================================================================================
+    CWinSockManager& winSockManager = CWinSockManager::getInstance();
+    SOCKET listenSocket = winSockManager.GetListenSocket();
+    FD_SET(listenSocket, &ReadSet);
+
     // select 호출
     iResult = select(0, &ReadSet, &WriteSet, NULL, &timeVal);
 
     // iResult 값이 0 이상이라면 읽을 데이터 / 쓸 데이터가 있다는 뜻
     if (iResult > 0)
     {
+        // 백로그 큐에 소켓이 있다면, accept 진행
+        if (FD_ISSET(listenSocket, &ReadSet))
+        {
+            --iResult;
+
+            // accept 이벤트 처리. 접속 및 CSession 생성
+            netProc_Accept();
+        }
+
+        // listen 소켓을 제외한 세션 처리
         auto iter2 = iter;
         for (UINT8 i = 0; i < iCSessionSize; ++i)
         {
