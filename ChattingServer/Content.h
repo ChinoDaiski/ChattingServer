@@ -3,7 +3,8 @@
 class CUser;
 class CRoom;
 
-extern std::unordered_map<UINT32, CRoom*> g_roomList;
+extern std::unordered_map<UINT32, CRoom*> g_roomUMapList;
+extern std::list<CUser*> g_userList;
 
 bool RegisterUserName(const std::wstring& userName);
 bool RemoveUserName(const std::wstring& userName);

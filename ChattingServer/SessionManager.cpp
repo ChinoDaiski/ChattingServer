@@ -93,9 +93,6 @@ void BroadcastPacket(CSession* excludeCSession, PACKET_HEADER* pHeader, CPacket*
 {
     BroadcastData(excludeCSession, pHeader, sizeof(PACKET_HEADER));
     BroadcastData(excludeCSession, pPacket, pHeader->wPayloadSize);
-
-    pPacket->MoveReadPos(pHeader->wPayloadSize);
-    pPacket->Clear();
 }
 
 // 클라이언트 연결이 끊어진 경우에 호출되는 함수
@@ -153,9 +150,6 @@ void UnicastPacket(CSession* includeCSession, PACKET_HEADER* pHeader, CPacket* p
 {
     UnicastData(includeCSession, pHeader, sizeof(PACKET_HEADER));
     UnicastData(includeCSession, pPacket, pHeader->wPayloadSize);
-
-    pPacket->MoveReadPos(pHeader->wPayloadSize);
-    pPacket->Clear();
 }
 
 CSession* createSession(SOCKET ClientSocket, SOCKADDR_IN ClientAddr)

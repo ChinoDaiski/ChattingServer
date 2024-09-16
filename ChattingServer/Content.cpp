@@ -2,9 +2,10 @@
 #include "Content.h"
 #include "User.h"
 
-std::set<std::wstring> g_userNameList;
-std::set<std::wstring> g_roomNameList;
-std::unordered_map<UINT32, CRoom*> g_roomList;
+std::unordered_set<std::wstring> g_userNameList;
+std::unordered_set<std::wstring> g_roomNameList;
+std::unordered_map<UINT32, CRoom*> g_roomUMapList;
+std::list<CUser*> g_userList;
 
 bool RegisterUserName(const std::wstring& userName)
 {
@@ -19,13 +20,13 @@ bool RegisterUserName(const std::wstring& userName)
 
 bool RemoveUserName(const std::wstring& userName)
 {
-    // 삭제에 성공하면 1 반환
+    // 삭제에 성공하면 1 반환. 왜? 중복이 없으니깐.
     if (g_userNameList.erase(userName) != 0)
     {
         return true;
     }
 
-    return true;
+    return false;
 }
 
 bool RegisterRoomName(const std::wstring& roomName)
@@ -41,13 +42,13 @@ bool RegisterRoomName(const std::wstring& roomName)
 
 bool RemoveRoomName(const std::wstring& roomName)
 {
-    // 삭제에 성공하면 1 반환
+    // 삭제에 성공하면 1 반환. 왜? 중복이 없으니깐.
     if (g_roomNameList.erase(roomName) != 0)
     {
         return true;
     }
 
-    return true;
+    return false;
 }
 
 
