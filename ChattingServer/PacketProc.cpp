@@ -99,6 +99,9 @@ bool REQ_LOGIN(CSession* pSession, WCHAR* szNickName)
 
         // 스스로가 접속 했음을 알림
         RES_LOGIN_FOR_SINGLE(pSession, result, pConnectedUser->m_uID);
+
+        // 유저 정보 추가
+        g_userList.push_back(pConnectedUser);
     }
     else
     {
