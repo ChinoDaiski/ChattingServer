@@ -20,7 +20,7 @@ void RES_LOGIN_FOR_All(CSession* pSession, UINT8 result, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -47,7 +47,7 @@ void RES_LOGIN_FOR_SINGLE(CSession* pSession, UINT8 result, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -91,7 +91,7 @@ void RES_ROOM_LIST_FOR_All(CSession* pSession, const std::list<CRoom*>& roomList
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -137,7 +137,7 @@ void RES_ROOM_LIST_FOR_SINGLE(CSession* pSession, const std::list<CRoom*>& roomL
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -160,7 +160,7 @@ void RES_ROOM_CREATE_FOR_All(CSession* pSession, UINT8 result, const CRoom* room
     if (nullptr != room)
     {
         Packet << room->m_roomID;
-        UINT16 size = (room->m_roomName.size() * sizeof(WCHAR));
+        UINT16 size = static_cast<UINT16>(room->m_roomName.size() * sizeof(WCHAR));
         Packet << size;
         Packet.PutData((char*)room->m_roomName.c_str(), size);
     }
@@ -171,7 +171,7 @@ void RES_ROOM_CREATE_FOR_All(CSession* pSession, UINT8 result, const CRoom* room
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -194,7 +194,7 @@ void RES_ROOM_CREATE_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* r
     if (nullptr != room)
     {
         Packet << room->m_roomID;
-        UINT16 size = (room->m_roomName.size() * sizeof(WCHAR));
+        UINT16 size = static_cast<UINT16>(room->m_roomName.size() * sizeof(WCHAR));
         Packet << size;
         Packet.PutData((char*)room->m_roomName.c_str(), size);
     }
@@ -205,7 +205,7 @@ void RES_ROOM_CREATE_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* r
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -229,11 +229,11 @@ void RES_ROOM_ENTER_FOR_All(CSession* pSession, UINT8 result, const CRoom* room)
     if (result == df_RESULT_ROOM_ENTER_OK)
     {
         Packet << room->m_roomID;
-        UINT16 size = (room->m_roomName.size() * sizeof(WCHAR));
+        UINT16 size = static_cast<UINT16>(room->m_roomName.size() * sizeof(WCHAR));
         Packet << size;
         Packet.PutData((char*)room->m_roomName.c_str(), size);
 
-        UINT8 participantSize = room->m_participants.size();
+        UINT8 participantSize = static_cast<UINT8>(room->m_participants.size());
         Packet << participantSize;
 
         CUser* pUser;
@@ -251,7 +251,7 @@ void RES_ROOM_ENTER_FOR_All(CSession* pSession, UINT8 result, const CRoom* room)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -275,11 +275,11 @@ void RES_ROOM_ENTER_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* ro
     if (result == df_RESULT_ROOM_ENTER_OK)
     {
         Packet << room->m_roomID;
-        UINT16 size = (room->m_roomName.size() * sizeof(WCHAR));
+        UINT16 size = static_cast<UINT16>(room->m_roomName.size() * sizeof(WCHAR));
         Packet << size;
         Packet.PutData((char*)room->m_roomName.c_str(), size);
 
-        UINT8 participantSize = room->m_participants.size();
+        UINT8 participantSize = static_cast<UINT8>(room->m_participants.size());
         Packet << participantSize;
 
         CUser* pUser;
@@ -297,7 +297,7 @@ void RES_ROOM_ENTER_FOR_SINGLE(CSession* pSession, UINT8 result, const CRoom* ro
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -325,7 +325,7 @@ void RES_CHAT_FOR_All(CSession* pSession, UINT32 senderNo, UINT16 strlen, WCHAR*
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -353,7 +353,7 @@ void RES_CHAT_FOR_SINGLE(CSession* pSession, UINT32 senderNo, UINT16 strlen, WCH
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -379,7 +379,7 @@ void RES_ROOM_LEAVE_FOR_All(CSession* pSession, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -405,7 +405,7 @@ void RES_ROOM_LEAVE_FOR_SINGLE(CSession* pSession, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -431,7 +431,7 @@ void RES_ROOM_DELETE_FOR_All(CSession* pSession, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -457,7 +457,7 @@ void RES_ROOM_DELETE_FOR_SINGLE(CSession* pSession, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -484,7 +484,7 @@ void RES_USER_ENTER_FOR_All(CSession* pSession, WCHAR* str, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {
@@ -511,7 +511,7 @@ void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, WCHAR* str, UINT32 userNO)
     header.byCode = dfPACKET_CODE;
     header.wPayloadSize = Packet.GetDataSize();
 
-    header.byCheckSum = header.wMsgType;
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
     char* pBuffer = Packet.GetBufferPtr();
     for (UINT16 i = 0; i < header.wPayloadSize; ++i)
     {

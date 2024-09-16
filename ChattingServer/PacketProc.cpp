@@ -131,8 +131,6 @@ bool REQ_ROOM_LIST(CSession* pSession)
 bool REQ_ROOM_CREATE(CSession* pSession, UINT16 strSize, WCHAR* roomName)
 {
     // 닉네임을 받아 방을 생성
-    // 닉네임 최대 크기는 대략 255라고 가정. 이 이상 이름이 길어지면 오류가 생기니 관련 오류 생성시 크기 늘릴 것
-    WCHAR szName[255];
     std::wstring strRoomName{ roomName };
 
     UINT8 result;
@@ -161,7 +159,7 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo)
 {
     // 해당 세션과 연결된 유저 객체를 특정 방으로 입장
     CUser* pUser = static_cast<CUser*>(pSession->pObj);
-    UINT8 result;
+    UINT8 result = df_RESULT_ROOM_ENTER_ETC;
     CRoom* pRoom = nullptr;
 
     // 만약 유저가 이미 방에 들어갔다면
@@ -178,6 +176,12 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo)
             // 방이 존재한다면
             result = df_RESULT_ROOM_ENTER_OK;
             pRoom = iter->second;
+        }
+        // 방을 못찾았다면
+        else
+        {
+            // 방 정보가 없는 방에 접근했다는 의미이므로 심각한 오류.
+            result = df_RESULT_ROOM_ENTER_ETC;
         }
     }
 
@@ -233,27 +237,29 @@ bool REQ_ROOM_LEAVE(CSession* pSession)
     auto iter = g_roomList.find(pUser->m_enterRoomNo);
     if (iter != g_roomList.end())
     {
+        // 유저가 있던 방 정보 획득
+        CRoom* pRoom = iter->second;
+
         // 방에 남아 있는 유저들에게 해당 세션과 연결된 유저가 나갔음을 알림
-        for (const auto& participant : iter->second->m_participants)
+        for (const auto& participant : pRoom->m_participants)
         {
             RES_ROOM_LEAVE_FOR_SINGLE(participant.second->m_pSession, pUser->m_uID);
         }
 
         // 해당 세션과 연결된 유저가 방에서 나옴
-        iter->second->Withdraw(pUser);
+        pRoom->Withdraw(pUser);
 
         // 만약 방에 아무도 남아 있지 않다면 방을 파괴하고 브로드캐스트로 알림
-        if (iter->second->m_participants.empty())
+        if (pRoom->m_participants.empty())
         {
             // 룸 이름 삭제
-            RemoveRoomName(iter->second->m_roomName);
+            RemoveRoomName(pRoom->m_roomName);
 
             // 방 파괴 프로토콜 브로드캐스트
             RES_ROOM_DELETE_FOR_All(nullptr, iter->first);
 
             // 방 정보 삭제
-            g_roomList.erase(iter->first);
-
+            g_roomList.erase(pRoom->m_roomID);
         }
     }
 
@@ -275,20 +281,23 @@ void DisconnectSessionProc(CSession* pSession)
         auto iter = g_roomList.find(pUser->m_enterRoomNo);
         if (iter != g_roomList.end())
         {
+            // 유저가 있던 방 정보 획득
+            CRoom* pRoom = iter->second;
+
             // 방에 남아 있는 유저들에게 해당 세션과 연결된 유저가 나갔음을 알림
-            for (const auto& participant : iter->second->m_participants)
+            for (const auto& participant : pRoom->m_participants)
             {
                 RES_ROOM_LEAVE_FOR_SINGLE(participant.second->m_pSession, pUser->m_uID);
             }
 
             // 해당 세션과 연결된 유저가 방에서 나옴
-            iter->second->Withdraw(pUser);
+            pRoom->Withdraw(pUser);
 
             // 만약 방에 아무도 남아 있지 않다면 방을 파괴하고 브로드캐스트로 알림
-            if (iter->second->m_participants.empty())
+            if (pRoom->m_participants.empty())
             {
-                RES_ROOM_DELETE_FOR_All(nullptr, iter->first);
-                g_roomList.erase(iter->first);
+                RES_ROOM_DELETE_FOR_All(nullptr, pRoom->m_roomID);
+                g_roomList.erase(pRoom->m_roomID);
             }
         }
     }

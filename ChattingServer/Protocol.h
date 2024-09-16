@@ -24,17 +24,17 @@
 
 typedef struct st_PACKET_HEADER
 {
-	BYTE	byCode;
-	BYTE	byCheckSum;
+	UINT8	byCode;
+	UINT8	byCheckSum;
 
-	WORD	wMsgType;
-	WORD	wPayloadSize;
+	UINT16	wMsgType;
+	UINT16	wPayloadSize;
 }PACKET_HEADER;
 
 #pragma pack(pop)
 
 
-enum class PACKET_TYPE : BYTE
+enum class PACKET_TYPE : UINT8
 {
 	PT_REQ_LOGIN = 1,
 	PT_RES_LOGIN = 2,

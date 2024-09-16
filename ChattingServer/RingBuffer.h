@@ -41,7 +41,7 @@ public:
         if (m_iSize > 0) {
             // 데이터가 연속된 경우
             if (m_iReadPos < m_iWritePos) {
-                memcpy_s(newBuffer, m_iSize, m_pBuffer + m_iReadPos, m_iSize);
+                memcpy(newBuffer, m_pBuffer + m_iReadPos, m_iSize);
             }
             // 데이터가 나누어진 경우
             else {
