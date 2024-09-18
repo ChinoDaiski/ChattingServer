@@ -55,11 +55,15 @@ void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT8 data
 
         if (retVal != dataSize)
         {
+            // 이런 일은 있어선 안되지만 혹시 모르니 검사
+            // enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, 여기에 들어왔다는 것은 resize로 해결 가능.
+            // 다만, 링버퍼의 크기가 가득 찰 수 있는 상황 중 tcp 윈도우 사이즈가 0인 경우엔 resize로 해결이 안될 확률이 높으니 끊는게 맞음. 
+            // 할지 말지는 오류 생길시 가서 테스트하면서 진행
+
             NotifyClientDisconnected(client);
 
-            // 이런 일은 있어선 안되지만 혹시 모르니 검사, enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, resize할지 말지는 오류 생길시 가서 테스트하면서 진행
             int error = WSAGetLastError();
-            std::cout << "Error : BroadcastData(), It might be full of sendQ" << error << "\n";
+            std::cout << "Error : BroadcastData(), sendQ가 가득찼음" << error << "\n";
             DebugBreak();
         }
     }
@@ -79,11 +83,15 @@ void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT8 dataSize)
 
         if (retVal != dataSize)
         {
+            // 이런 일은 있어선 안되지만 혹시 모르니 검사
+            // enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, 여기에 들어왔다는 것은 resize로 해결 가능.
+            // 다만, 링버퍼의 크기가 가득 찰 수 있는 상황 중 tcp 윈도우 사이즈가 0인 경우엔 resize로 해결이 안될 확률이 높으니 끊는게 맞음. 
+            // 할지 말지는 오류 생길시 가서 테스트하면서 진행
+
             NotifyClientDisconnected(client);
 
-            // 이런 일은 있어선 안되지만 혹시 모르니 검사, enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, resize할지 말지는 오류 생길시 가서 테스트하면서 진행
             int error = WSAGetLastError();
-            std::cout << "Error : BroadcastData(), It might be full of sendQ" << error << "\n";
+            std::cout << "Error : BroadcastData(), sendQ가 가득찼음" << error << "\n";
             DebugBreak();
         }
     }
@@ -117,11 +125,15 @@ void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT8 dataSi
 
     if (retVal != dataSize)
     {
+        // 이런 일은 있어선 안되지만 혹시 모르니 검사
+        // enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, 여기에 들어왔다는 것은 resize로 해결 가능.
+        // 다만, 링버퍼의 크기가 가득 찰 수 있는 상황 중 tcp 윈도우 사이즈가 0인 경우엔 resize로 해결이 안될 확률이 높으니 끊는게 맞음. 
+        // 할지 말지는 오류 생길시 가서 테스트하면서 진행
+
         NotifyClientDisconnected(includeCSession);
 
-        // 이런 일은 있어선 안되지만 혹시 모르니 검사, enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, resize할지 말지는 오류 생길시 가서 테스트하면서 진행
         int error = WSAGetLastError();
-        std::cout << "Error : UnicastData(), It might be full of sendQ" << error << "\n";
+        std::cout << "Error : UnicastData(), sendQ가 가득찼음" << error << "\n";
         DebugBreak();
     }
 }
@@ -137,11 +149,15 @@ void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT8 dataSize)
 
     if (retVal != dataSize)
     {
+        // 이런 일은 있어선 안되지만 혹시 모르니 검사
+        // enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, 여기에 들어왔다는 것은 resize로 해결 가능.
+        // 다만, 링버퍼의 크기가 가득 찰 수 있는 상황 중 tcp 윈도우 사이즈가 0인 경우엔 resize로 해결이 안될 확률이 높으니 끊는게 맞음. 
+        // 할지 말지는 오류 생길시 가서 테스트하면서 진행
+
         NotifyClientDisconnected(includeCSession);
 
-        // 이런 일은 있어선 안되지만 혹시 모르니 검사, enqueue에서 문제가 난 것은 링버퍼의 크기가 가득찼다는 의미이므로, resize할지 말지는 오류 생길시 가서 테스트하면서 진행
         int error = WSAGetLastError();
-        std::cout << "Error : UnicastData(), It might be full of sendQ" << error << "\n";
+        std::cout << "Error : UnicastData(), sendQ가 가득찼음" << error << "\n";
         DebugBreak();
     }
 }

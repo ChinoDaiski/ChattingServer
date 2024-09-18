@@ -194,82 +194,36 @@ void CNetIOManager::netProc_Send(CSession* pSession)
     int directDeqSize = pSession->sendQ.DirectDequeueSize();
     int useSize = pSession->sendQ.GetUseSize();
 
-    // 사용하는 용량이 directDeqSize보다 작거나 같을 경우
-    if (useSize <= directDeqSize)
+    // 사용하는 용량(useSize)이 directDeqSize보다 작거나 같을 경우 useSize만큼만 보내고, 클 경우 directDeqSize만큼 보낸다.
+
+    int retval = send(pSession->sock, pSession->sendQ.GetFrontBufferPtr(), std::min(useSize, directDeqSize), 0);
+
+    // 여기서 소켓 에러 처리
+    if (retval == SOCKET_ERROR)
     {
-        int retval = send(pSession->sock, pSession->sendQ.GetFrontBufferPtr(), useSize, 0);
+        int error = WSAGetLastError();
 
-        // 여기서 소켓 에러 처리
-        if (retval == SOCKET_ERROR)
+        // 중간에 강제로 연결 끊김.
+        if (error == WSAECONNRESET)
         {
-            int error = WSAGetLastError();
-
-            // 중간에 강제로 연결 끊김.
-            if (error == WSAECONNRESET)
-            {
-                NotifyClientDisconnected(pSession);
-                return;
-            }
-
-            // 여기서 예외 처리 작업
-            DebugBreak();
+            NotifyClientDisconnected(pSession);
+            return;
         }
 
-        // 만약 send가 실패한다면
-        if (retval != useSize)
-        {
-            int error = WSAGetLastError();
-
-            // 여기서 예외 처리 작업
-            DebugBreak();
-        }
-
-        pSession->sendQ.MoveFront(retval);
+        // 여기서 예외 처리 작업
+        DebugBreak();
     }
-    // 사용하는 용량이 directDeqSize보다 클 경우
-    else
+
+    // 만약 send가 실패한다면
+    if (retval != std::min(useSize, directDeqSize))
     {
-        // directDeqSize 만큼만 send
-        int retval = send(pSession->sock, pSession->sendQ.GetFrontBufferPtr(), directDeqSize, 0);
+        int error = WSAGetLastError();
 
-        // 여기서 소켓 에러 처리
-        if (retval == SOCKET_ERROR)
-        {
-            int error = WSAGetLastError();
-
-            // 여기서 예외 처리 작업
-            DebugBreak();
-        }
-
-        // 만약 send가 실패한다면
-        if (retval != directDeqSize)
-        {
-            int error = WSAGetLastError();
-
-            // 여기서 예외 처리 작업
-            DebugBreak();
-        }
-
-        pSession->sendQ.MoveFront(retval);
-
-        // 남은 부분이 있으면 어짜피 다시 들어온다. 그때 추가적으로 보낼 것이 있다면 보내는게 오버헤드가 적다. 
-        // 만약 응답성이 떨어지는 것 같으면 여기를 살려서 다시 시도해볼 것.
-        /*
-        // 남은 부분 전송
-        retval = send(pSession->sock, pSession->sendQ.GetFrontBufferPtr(), useSize - directDeqSize, 0);
-
-        // 만약 send가 실패한다면
-        if (retval != (useSize - directDeqSize))
-        {
-            int error = WSAGetLastError();
-
-            // 여기서 예외 처리 작업
-            DebugBreak();
-        }
-
-        pSession->sendQ.MoveFront(retval);
-        */
+        // 여기서 예외 처리 작업
+        DebugBreak();
     }
+
+    pSession->sendQ.MoveFront(retval);
 }
 
 void CNetIOManager::netProc_Recv(CSession* pSession)
@@ -339,19 +293,17 @@ void CNetIOManager::netProc_Recv(CSession* pSession)
         int headerSize = sizeof(header);
         int retVal = pSession->recvQ.Peek(reinterpret_cast<char*>(&header), headerSize);
 
-        // 원래 사이즈 검사를 해줘야 하지만 위에서 검사했으므로 넘김.
-        /*
-        if (retVal != headerSize)
-        {
-            break;
-        }
-        */
-
         // 3. header의 Code 부분 확인. CRC 확인으로 이상한 값이 있으면 disconnect 처리
         if (header.byCode != dfPACKET_CODE)
         {
             NotifyClientDisconnected(pSession);
             break;
+        }
+
+        // 추가로 수신된 데이터의 크기가 최대 패킷 크기를 넘어서면 검사
+        if (header.wPayloadSize > MAX_PACKET_SIZE)
+        {
+            DebugBreak();
         }
 
         // 4. 헤더의 len값과 RecvQ의 데이터 사이즈 비교
@@ -364,12 +316,6 @@ void CNetIOManager::netProc_Recv(CSession* pSession)
         // 6. RecvQ에서 header의 len 크기만큼 임시 패킷 버퍼를 뽑는다.
         int recvQDeqRetVal = pSession->recvQ.Dequeue(tempPacketBuffer, header.wPayloadSize);
         tempPacketBuffer[recvQDeqRetVal] = '\0';
-
-        if (recvQDeqRetVal > MAX_PACKET_SIZE)
-        {
-            DebugBreak();
-        }
-
         // 7. CheckSum 값으로 패킷의 데이터가 올바르게 왔는지 체크
         // checkSum - 각 MsgType, Payload 의 각 바이트 더하기 % 256
         UINT16 sum = header.wMsgType;
