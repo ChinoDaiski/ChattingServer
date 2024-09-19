@@ -120,6 +120,9 @@ void CNetIOManager::netIOProcess(void)
     SOCKET listenSocket = winSockManager.GetListenSocket();
     FD_SET(listenSocket, &ReadSet);
 
+    // 이렇게 listen 소켓을 처리하는 이유는 listen 소켓이 blocking이기 때문
+
+
     // select 호출
     iResult = select(0, &ReadSet, &WriteSet, NULL, &timeVal);
 
@@ -316,6 +319,7 @@ void CNetIOManager::netProc_Recv(CSession* pSession)
         // 6. RecvQ에서 header의 len 크기만큼 임시 패킷 버퍼를 뽑는다.
         int recvQDeqRetVal = pSession->recvQ.Dequeue(tempPacketBuffer, header.wPayloadSize);
         tempPacketBuffer[recvQDeqRetVal] = '\0';
+
         // 7. CheckSum 값으로 패킷의 데이터가 올바르게 왔는지 체크
         // checkSum - 각 MsgType, Payload 의 각 바이트 더하기 % 256
         UINT16 sum = header.wMsgType;

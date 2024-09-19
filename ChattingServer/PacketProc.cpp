@@ -186,13 +186,8 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo)
         }
     }
 
-    // 연결된 세션에게 방에 접속했다고 메시지를 보냄
-    RES_ROOM_ENTER_FOR_SINGLE(pSession, result, pRoom);
-
     if (result == df_RESULT_ROOM_ENTER_OK)
     {
-        pRoom->Participate(pUser);
-
         // 이미 방에 들어가 있는 세션들에게 새로운 세션이 연결됬다고 알림
         CUser* pExistingUser;
         for (auto& participant : pRoom->m_participants)
@@ -204,7 +199,13 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo)
 
             RES_USER_ENTER_FOR_SINGLE(pExistingUser->m_pSession, szName, pUser->m_uID);
         }
+
+        // 방에 들어갔음
+        pRoom->Participate(pUser);
     }
+
+    // 연결된 세션에게 방에 접속해 있는 모든 세션 리스트 정보를 보냄
+    RES_ROOM_ENTER_FOR_SINGLE(pSession, result, pRoom);
 
     return true;
 }
