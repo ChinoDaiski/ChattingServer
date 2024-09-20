@@ -7,15 +7,15 @@ class CSession;
 //==========================================================================================================================================
 // Broadcast
 //==========================================================================================================================================
-void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT8 dataSize);
-void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT8 dataSize);
+void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT32 dataSize);
+void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT32 dataSize);
 void BroadcastPacket(CSession* excludeCSession, PACKET_HEADER* pHeader, CPacket* pPacket);
 
 //==========================================================================================================================================
 // Unicast
 //==========================================================================================================================================
-void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT8 dataSize);
-void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT8 dataSize);
+void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT32 dataSize);
+void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT32 dataSize);
 void UnicastPacket(CSession* includeCSession, PACKET_HEADER* pHeader, CPacket* pPacket);
 
 //==========================================================================================================================================

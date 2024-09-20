@@ -45,7 +45,7 @@ int main()
     UINT8 options = 0;
     options |= OPTION_NONBLOCKING;
 
-    winSockManager.StartServer(PROTOCOL_TYPE::TCP_IP, SERVERPORT, options);
+    winSockManager.StartServer(PROTOCOL_TYPE::TCP_IP, SERVERPORT, options, INADDR_ANY, SOMAXCONN_HINT(65535));
 
     //=====================================================================================================================================
     // 서버 시간 설정

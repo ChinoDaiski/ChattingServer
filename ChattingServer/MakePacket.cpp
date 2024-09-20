@@ -521,3 +521,81 @@ void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, WCHAR* str, UINT32 userNO)
 
     UnicastPacket(pSession, &header, &Packet);
 }
+
+void RES_STRESS_ECHO_FOR_All(CSession* pSession, UINT16 strlen, WCHAR* str)
+{
+    PACKET_HEADER header;
+    CPacket Packet;
+
+    //================================================================================
+
+    Packet << strlen;
+    Packet.PutData((char*)str, strlen);
+
+    //================================================================================
+
+    header.wMsgType = df_RES_STRESS_ECHO;
+    header.byCode = dfPACKET_CODE;
+    header.wPayloadSize = Packet.GetDataSize();
+
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
+    char* pBuffer = Packet.GetBufferPtr();
+    for (UINT16 i = 0; i < header.wPayloadSize; ++i)
+    {
+        header.byCheckSum += pBuffer[i];
+    }
+    header.byCheckSum %= 256;
+
+    BroadcastPacket(pSession, &header, &Packet);
+}
+
+void RES_STRESS_ECHO_FOR_SINGLE(CSession* pSession, UINT16 strlen, char* str)
+{
+    PACKET_HEADER header;
+    CPacket Packet;
+
+    //================================================================================
+
+    Packet << strlen;
+    Packet.PutData(str, strlen);
+
+    //================================================================================
+
+    header.wMsgType = df_RES_STRESS_ECHO;
+    header.byCode = dfPACKET_CODE;
+    header.wPayloadSize = Packet.GetDataSize();
+
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
+    char* pBuffer = Packet.GetBufferPtr();
+    for (UINT16 i = 0; i < header.wPayloadSize; ++i)
+    {
+        header.byCheckSum += pBuffer[i];
+    }
+    header.byCheckSum %= 256;
+
+    UnicastPacket(pSession, &header, &Packet);
+}
+
+void RES_STRESS_ECHO_FOR_SINGLE(CSession* pSession, CPacket* Packet)
+{
+    PACKET_HEADER header;
+
+    //================================================================================
+
+
+    //================================================================================
+
+    header.wMsgType = df_RES_STRESS_ECHO;
+    header.byCode = dfPACKET_CODE;
+    header.wPayloadSize = Packet->GetDataSize();
+
+    header.byCheckSum = static_cast<UINT8>(header.wMsgType);
+    char* pBuffer = Packet->GetBufferPtr();
+    for (UINT16 i = 0; i < header.wPayloadSize; ++i)
+    {
+        header.byCheckSum += pBuffer[i];
+    }
+    header.byCheckSum %= 256;
+
+    UnicastPacket(pSession, &header, Packet);
+}

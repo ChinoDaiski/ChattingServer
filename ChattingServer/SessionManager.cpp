@@ -42,7 +42,7 @@ void CSessionManager::Update(void)
     }
 }
 
-void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT8 dataSize)
+void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT32 dataSize)
 {
     for (auto& client : g_clientList)
     {
@@ -70,7 +70,7 @@ void BroadcastData(CSession* excludeCSession, PACKET_HEADER* pPacket, UINT8 data
 }
 
 // 클라이언트에게 데이터를 브로드캐스트하는 함수
-void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT8 dataSize)
+void BroadcastData(CSession* excludeCSession, CPacket* pPacket, UINT32 dataSize)
 {
     for (auto& client : g_clientList)
     {
@@ -115,7 +115,7 @@ void NotifyClientDisconnected(CSession* disconnectedCSession)
     disconnectedCSession->isAlive = false;
 }
 
-void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT8 dataSize)
+void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT32 dataSize)
 {
     if (!includeCSession->isAlive)
         return;
@@ -139,7 +139,7 @@ void UnicastData(CSession* includeCSession, PACKET_HEADER* pPacket, UINT8 dataSi
 }
 
 // 인자로 받은 세션들에게 데이터 전송을 시도하는 함수
-void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT8 dataSize)
+void UnicastData(CSession* includeCSession, CPacket* pPacket, UINT32 dataSize)
 {
     if (!includeCSession->isAlive)
         return;

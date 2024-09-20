@@ -35,8 +35,12 @@ void CNetIOManager::netIOProcess(void)
 
     auto iter = g_clientList.begin();
 
-    // 연결된 세션의 갯수가 64개 초과라면
-    while (iCSessionSize > 64)
+
+    static UINT32 netProc_RecvCnt = 0;
+    static UINT32 netProc_SendCnt = 0;
+
+    // 연결된 세션의 갯수가 64개 이상이라면
+    while (iCSessionSize >= 64)
     {
         // 셋 초기화
         FD_ZERO(&ReadSet);
@@ -74,7 +78,10 @@ void CNetIOManager::netIOProcess(void)
 
                     // recv 이벤트 처리. 메시지 수신 및 메시지 분기 로직 처리
                     if ((*iter2)->isAlive)
+                    {
                         netProc_Recv((*iter2));
+                        ++netProc_RecvCnt;
+                    }
                 }
 
                 if (FD_ISSET((*iter2)->sock, &WriteSet))
@@ -83,7 +90,10 @@ void CNetIOManager::netIOProcess(void)
 
                     // send 이벤트 처리. 메시지 송신
                     if ((*iter2)->isAlive)
+                    {
                         netProc_Send((*iter2));
+                        ++netProc_SendCnt;
+                    }
                 }
             }
         }
@@ -94,7 +104,7 @@ void CNetIOManager::netIOProcess(void)
         }
     }
 
-    // 연결된 세션의 갯수가 64개 이하라면
+    // 연결된 세션의 갯수가 64개 미만이라면
 
     // 셋 초기화
     FD_ZERO(&ReadSet);
@@ -150,7 +160,10 @@ void CNetIOManager::netIOProcess(void)
 
                 // recv 이벤트 처리. 메시지 수신 및 메시지 분기 로직 처리
                 if ((*iter2)->isAlive)
+                {
                     netProc_Recv((*iter2));
+                    ++netProc_RecvCnt;
+                }
             }
 
             if (FD_ISSET((*iter2)->sock, &WriteSet))
@@ -159,7 +172,10 @@ void CNetIOManager::netIOProcess(void)
 
                 // send 이벤트 처리. 메시지 송신
                 if ((*iter2)->isAlive)
+                {
                     netProc_Send((*iter2));
+                    ++netProc_SendCnt;
+                }
             }
         }
     }

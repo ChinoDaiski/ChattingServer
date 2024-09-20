@@ -69,6 +69,20 @@ bool PacketProc(CSession* pSession, PACKET_TYPE packetType, CPacket* pPacket)
         return REQ_ROOM_LEAVE(pSession);
     }
     break;
+    case PACKET_TYPE::PT_REQ_STRESS_ECHO:
+    {
+        
+        //return REQ_STRESS_ECHO(pSession, pPacket);
+        
+        UINT16 strSize;
+        *pPacket >> strSize;
+
+        char szStrData[1000];
+        pPacket->GetData(szStrData, strSize);
+
+        return REQ_STRESS_ECHO(pSession, strSize, szStrData);
+    }
+    break;
     default:
         return false;
         break;
@@ -269,6 +283,18 @@ bool REQ_ROOM_LEAVE(CSession* pSession)
         }
     }
 
+    return true;
+}
+
+bool REQ_STRESS_ECHO(CSession* pSession, UINT16 strSize, char* str)
+{
+    RES_STRESS_ECHO_FOR_SINGLE(pSession, strSize, str);
+    return true;
+}
+
+bool REQ_STRESS_ECHO(CSession* pSession, CPacket* pPacket)
+{
+    RES_STRESS_ECHO_FOR_SINGLE(pSession, pPacket);
     return true;
 }
 

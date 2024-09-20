@@ -23,9 +23,6 @@ public:
     CRingBuffer recvQ;  // 수신용 링버퍼
     CRingBuffer sendQ;  // 송신용 링버퍼
 
-    // 유저 INFO
-    UINT16 uid; // ID
-
     CObject* pObj;
 
 private:
