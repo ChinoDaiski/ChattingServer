@@ -468,7 +468,7 @@ void RES_ROOM_DELETE_FOR_SINGLE(CSession* pSession, UINT32 userNO)
     UnicastPacket(pSession, &header, &Packet);
 }
 
-void RES_USER_ENTER_FOR_All(CSession* pSession, WCHAR* str, UINT32 userNO)
+void RES_USER_ENTER_FOR_All(CSession* pSession, const WCHAR* str, UINT32 userNO)
 {
     PACKET_HEADER header;
     CPacket Packet;
@@ -495,7 +495,7 @@ void RES_USER_ENTER_FOR_All(CSession* pSession, WCHAR* str, UINT32 userNO)
     BroadcastPacket(pSession, &header, &Packet);
 }
 
-void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, WCHAR* str, UINT32 userNO)
+void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, const WCHAR* str, UINT32 userNO)
 {
     PACKET_HEADER header;
     CPacket Packet;

@@ -71,9 +71,6 @@ bool PacketProc(CSession* pSession, PACKET_TYPE packetType, CPacket* pPacket)
     break;
     case PACKET_TYPE::PT_REQ_STRESS_ECHO:
     {
-        
-        //return REQ_STRESS_ECHO(pSession, pPacket);
-        
         UINT16 strSize;
         *pPacket >> strSize;
 
@@ -207,11 +204,7 @@ bool REQ_ROOM_ENTER(CSession* pSession, UINT16 roomNo)
         for (auto& participant : pRoom->m_participants)
         {
             pExistingUser = participant.second;
-            WCHAR szName[dfNICK_MAX_LEN + 1];
-            memcpy(szName, pUser->m_strName.c_str(), dfNICK_MAX_LEN);
-            szName[dfNICK_MAX_LEN] = '\0';
-
-            RES_USER_ENTER_FOR_SINGLE(pExistingUser->m_pSession, szName, pUser->m_uID);
+            RES_USER_ENTER_FOR_SINGLE(pExistingUser->m_pSession, pUser->m_strName.c_str(), pUser->m_uID);
         }
 
         // 방에 들어갔음

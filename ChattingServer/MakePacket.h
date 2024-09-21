@@ -25,8 +25,8 @@ void RES_ROOM_LEAVE_FOR_SINGLE(CSession* pSession, UINT32 userNO);
 void RES_ROOM_DELETE_FOR_All(CSession* pSession, UINT32 userNO);
 void RES_ROOM_DELETE_FOR_SINGLE(CSession* pSession, UINT32 userNO);
 
-void RES_USER_ENTER_FOR_All(CSession* pSession, WCHAR* str, UINT32 userNO);
-void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, WCHAR* str, UINT32 userNO);
+void RES_USER_ENTER_FOR_All(CSession* pSession, const WCHAR* str, UINT32 userNO);
+void RES_USER_ENTER_FOR_SINGLE(CSession* pSession, const WCHAR* str, UINT32 userNO);
 
 void RES_STRESS_ECHO_FOR_All(CSession* pSession, UINT16 strlen, WCHAR* str);
 void RES_STRESS_ECHO_FOR_SINGLE(CSession* pSession, UINT16 strlen, char* str);
